@@ -10,7 +10,7 @@ Algoritma geliştirme pratiğini genişletmek ve farklı teknolojilerdeki pratik
 
 Çözümler, kullanıldıkları dillere göre kategorize edilmiştir:
 
-* **`/C`** - Dersin ana gereksinimi olan temel C çözümleri. Algoritmaların Zaman Karmaşıklığı ($T(n)$ ve Büyük-O) ile Alan Karmaşıklığı ($S(n)$) analizleri bu dosyalardaki yorum satırlarında detaylı matematiksel hesaplamalarıyla yer almaktadır.
+* **`/C`** - Dersin ana gereksinimi olan temel C çözümleri. Algoritmaların Zaman Karmaşıklığı $T(n)$ ve Büyük-O ile Alan Karmaşıklığı $S(n)$ analizleri bu dosyalardaki yorum satırlarında detaylı matematiksel hesaplamalarıyla yer almaktadır.
 * **`/C-Sharp`** - Nesne Yönelimli Programlama ve güçlü tip (strongly-typed) mimarisi reflekslerini korumak için C# implementasyonları.
 * **`/Python`** - Hızlı prototipleme ve esnek veri yapıları kullanımları için Python implementasyonları.
 
