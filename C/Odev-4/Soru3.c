@@ -2,91 +2,113 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct PrintJob {
-    char fileName[50];
-    struct PrintJob* next;
-} PrintJob;
+typedef struct PrintJob{
+    char fileName [50];
+    struct PrintJob *next;
+}PrintJob;
 
-typedef struct Queue {
-    PrintJob* front;
-    PrintJob* rear;
-} Queue;
+typedef struct Queue{
+    PrintJob *front;
+    PrintJob *rear;
+}Queue;
 
-void enqueuePrintJob(Queue* q, char* fileName) {
-    PrintJob* newJob = (PrintJob*)malloc(sizeof(PrintJob));
-    if (newJob == NULL) exit(1);
-    
-    strcpy(newJob->fileName, fileName);
-    newJob->next = NULL;
+void enqueuePrintJob(Queue *q, char *fileName){
 
-    if (q->rear == NULL) {
-        q->front = newJob;
-        q->rear = newJob;
+    PrintJob *newPrint = (PrintJob*)malloc(sizeof(PrintJob));
+
+    if (newPrint == NULL){
+        printf("Bellek tahsis edilemedi\n");
+        exit(1);
+    }
+
+    strcpy (newPrint->fileName, fileName);
+    newPrint->next = NULL;
+
+    if (q->rear == NULL){
+        q->rear = newPrint;
+        q->front = newPrint;
         return;
     }
-    
-    q->rear->next = newJob;
-    q->rear = newJob;
+
+    q->rear->next = newPrint;
+    q->rear = newPrint;
+
 }
-
-void processNextJob(Queue* q) {
-    if (q->front == NULL) {
-        printf("Kuyruk bos, yazdirilacak dosya yok.\n");
+void processNextJob(Queue *q){
+    if (q->front == NULL){
+        printf("Kuyruk bos...\n\n");
         return;
     }
-    
-    PrintJob* temp = q->front;
-    printf("Yazdiriliyor: %s\n", temp->fileName);
-    q->front = q->front->next;
 
-    if (q->front == NULL) {
+    PrintJob *temp = q->front;
+
+    printf("Yazdiriliyor: %s\n", temp->fileName);
+
+    if (q->rear == q->front){
         q->rear = NULL;
     }
-    
-    free(temp);
-}
 
-void showQueue(Queue q) {
-    if (q.front == NULL) {
-        printf("Kuyruk bos.\n");
+    q->front = q->front->next;
+
+    free(temp);
+     
+}
+void showQueue(Queue q){
+
+    if (q.front == NULL){
+        printf("Kuyruk tamamen bos...\n");
         return;
     }
-    
-    PrintJob* current = q.front;
-    printf("Bekleyen dosyalar: ");
-    while (current != NULL) {
-        printf("%s ", current->fileName);
-        current = current->next;
-    }
-    printf("\n");
+
+        PrintJob *current = q.front;
+
+        printf("Kuyruk gosteriliyor...\n");
+
+        while (current != NULL){
+            printf("%s\n", current->fileName);
+            current = current->next;
+        }
 }
 
-int main() {
+int main(){
+
     Queue q;
+
     q.front = NULL;
     q.rear = NULL;
-    
-    int secim;
-    char dosyaAdi[50];
 
-    while (1) {
-        printf("\n1-Yeni dosya ekle\n2-Yazdir\n3-Kuyrugu goster\n4-Cikis\n> ");
-        scanf("%d", &secim);
+    char fileName[50];
 
-        if (secim == 1) {
-            printf("Dosya adi: ");
-            scanf("%s", dosyaAdi);
-            enqueuePrintJob(&q, dosyaAdi);
-        } else if (secim == 2) {
-            processNextJob(&q);
-        } else if (secim == 3) {
-            showQueue(q);
-        } else if (secim == 4) {
-            break;
-        } else {
-            printf("Gecersiz secim.\n");
-        }
-    }
-    
+    int choise;
+
+    while(1){
+        printf("1- Yeni dosya ekle\n");
+        printf("2- Yazdir\n");
+        printf("3- Kuyrugu goster\n");
+        printf("4- Cikis\n");
+
+        printf("\nSeciminiz: ");
+        scanf(" %d", &choise);
+
+        switch(choise){
+            case 1:
+                printf("Eklemek istediginiz elemani giriniz: \n");
+                scanf("%s", fileName);
+                enqueuePrintJob(&q, fileName);
+                break;
+            case 2:
+                processNextJob(&q);
+                break;
+
+            case 3:
+                showQueue(q);
+                break;
+
+            case 4:
+                printf("\n\nCikis yapiliyor...");
+                return 0;
+        };
+    };
+
     return 0;
 }
