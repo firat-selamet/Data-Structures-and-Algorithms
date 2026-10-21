@@ -1,72 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct Bst{
-    struct Bst *left;
-    struct Bst *right;
+typedef struct Node{
     int data;
-} Bst;
+    struct Node *left;
+    struct Node *right;
+}Node;
 
-// PDF'teki main fonksiyonu ile uyumlu olması için Node tanımı
-typedef Bst* Node;
-
-// Soru 1: BST'ye eleman ekleme fonksiyonu (Aynı değer kontrolü dahil)
-Bst* insert(Bst *root, int value){
+Node* insert(Node *root, int value){
     if (root == NULL){
-        Bst* newRoot = (Bst*)malloc(sizeof(Bst));
-        if (newRoot == NULL) {
-            printf("Bellek tahsis edilemedi!\n");
+        Node *newNode = (Node*)malloc(sizeof(Node));
+        if (newNode == NULL){
+            printf("Bellek tahsis edilemedi...");
             exit(1);
         }
-        newRoot->data = value;
-        newRoot->left = NULL;
-        newRoot->right = NULL;
-        return newRoot;
+        newNode->data = value;
+        newNode->left = NULL;
+        newNode->right = NULL;
+
+        return newNode;
     }
 
     if (value < root->data){
-        root->left = insert(root->left, value);
+        root->left = insert(root->left,value);
+        return root;
     }
     else if (value > root->data){
-        root->right = insert(root->right, value);
+        root->right = insert(root->right,value);
+        return root;
     }
-    // Aynı değer verilirse yeni düğüm oluşturulmaz.
-
     return root;
 }
 
-// Soru 1: Küçükten büyüğe sıralı yazdıran inorder fonksiyonu
-void inorder(Bst *root){
+void inorder(Node *root){
     if (root != NULL){
         inorder(root->left);
-        printf("%d ", root->data);
+        printf("%d", root->data);
         inorder(root->right);
     }
 }
 
-// Soru 2: Ağaçta arama yapan fonksiyon (Bulunduysa 1, bulunamadıysa 0 döndürür)[cite: 3]
-int search(Bst *root, int value){
+int search(Node *root, int value){
     if (root == NULL)
-        return 0;
+    return 0;
+    
     if (root->data == value)
-        return 1;
-    if (value < root->data)
-        return search(root->left, value);
-    else
-        return search(root->right, value);
+    return 1;
+    
+    if (root->data > value)
+    return search(root->left,value);
+    
+    if (root->data < value)
+    return search(root->right,value);
 }
 
-// Soru 2: Ağuktaki en küçük değeri bulan fonksiyon (En soldaki düğüm)[cite: 3, 4]
-int findMin(Bst *root){
+int findMin(Node *root){
     while (root->left != NULL){
-        root = root->left;
+     root = root->left;            
     }
     return root->data;
 }
-
-// Soru 2'de istenen güncellenmiş main fonksiyonu[cite: 3, 4]
-int main() {
-    Node root = NULL;
+int main(){
+    Node *root = NULL;
     int numbers[] = {40, 20, 60, 10, 30, 50, 70};
     
     for (int i = 0; i < 7; i++) {
